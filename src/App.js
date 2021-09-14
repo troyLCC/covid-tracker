@@ -43,8 +43,8 @@ function App() {
             <div>
               <div> Lat: {data.Lat}</div>
               <div> Long: {data.Lon}</div>
-              <div>{data.Cases} cases confirmed </div>
-              <div> {data.Date}</div>
+              <div><bold> Cases:</bold>{data.Cases} cases confirmed </div>
+              <div> <bold> Date:</bold>{data.Date.slice(0,-10)}</div>
             </div>
           );
         }
