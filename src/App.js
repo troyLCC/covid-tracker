@@ -1,30 +1,47 @@
-
-import './App.css';
-import React,{useRef, useState} from 'react'
+import "./App.css";
+import React, { useRef, useState } from "react";
 function App() {
-  const [data, setData] = useState([])
-  const countryInput = useRef('bangladesh')
-  const fetchData = (countryName) => {
-    fetch(`https://api.covid19api.com/dayone/country/${countryName}`)
-    .then(response => response.json())
-    .then(data =>  {
-      setData(data)
-    })
-  }
+  const [mainData, setMainData] = useState([]);
+  const userInput = useRef("");
+
+  // const displayData = () => {
+  //   mainData.map((data)=> {
+  //     return <div>
+  //       {data.cases}
+  //     </div>
+  //   })
+  // }
+
+  async function fetchAPI() {
+    // fetch(`https://api.covid19api.com/dayone/country/india/status/confirmed`)
+    //   .then((response) => response.json())
+    //   .then((data) => {return data});
+    const response = await fetch(`https://api.covid19api.com/dayone/country/india/status/confirmed`)
+    let data = await response.json()
+    setMainData(data)
+    // console.log(mainData)
+    // console.log(mainData[0].Country)
+    
+    
+
+  };
+  
+  const clickHandler = () => {
+    fetchAPI()
+    
+      
+    
+  };
+
   return (
     <div>
-      {countryInput &&  <div>{countryInput.current.value}</div>}
+      <input type="text" ref={userInput} />
+      <button onClick={clickHandler}>Fetch Data</button>
+    {mainData.map((data) => {
+      return <div>{data.Cases} </div>
+    })}
+     
       
-        <input type="text" ref={countryInput} />
-        <button onClick={fetchData(countryInput.current.value)}>Fetch Data</button>
-        {data.map((d) => (
-           <div> 
-            <div>Date: {d.Date}</div>
-            <div>Deaths: {d.Deaths}</div>
-            <div>Confirmed Cases {d.Confirmed}</div>
-          </div>
-
-        ))}
     </div>
   );
 }
